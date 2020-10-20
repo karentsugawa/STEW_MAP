@@ -43,7 +43,16 @@ cols = dfg.columns.tolist()
 dfg['OrgName'] = dfg['OrgName'].str.strip()
 dfg = dfg[['OrgName','OrgWebSite','Mission','geometry']]
 dfg
+
+
+#%%
+
+dfg = dfg.to_crs(epsg=4326)
+dfg
+
 # %%
 
 dfg.to_file( r'C:\Users\csucuogl\Documents\GitHub\STEW_MAP\group_data\Groups.geojson' , driver="GeoJSON" )
 
+
+# %%
