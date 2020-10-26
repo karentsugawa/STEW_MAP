@@ -34,18 +34,32 @@ groups = [
 dfg = df[ df['OrgName'].isin(groups) ]
 [i for i in sorted(dfg['OrgName'].unique()) ]
 
-#%%
-
-cols = dfg.columns.tolist()
-
 # %%
-
+cols = dfg.columns.tolist()
 dfg['OrgName'] = dfg['OrgName'].str.strip()
 dfg = dfg[['OrgName','OrgWebSite','Mission','geometry']]
 dfg
 
+#%% Website Addresses, correct
+dfg['OrgWebSite'] = dfg['OrgWebSite'].fillna(' ')
+dfg['OrgWebSite'] = dfg['OrgWebSite'].replace('troutintheclassroom.or','troutintheclassroom.org' , regex=False)
+dfg['OrgWebSite'] = dfg['OrgWebSite'].replace('nybg.or','nybg.org' , regex=False)
+dfg['OrgWebSite'] = dfg['OrgWebSite'].replace('/','' , regex=True)
+
+dfg['OrgWebSite']
 
 #%%
+dfg[['OrgName']].to_csv(r'C:\Users\csucuogl\Documents\GitHub\STEW_MAP\group_data\quotes_1.csv')
+
+#%%Quotes
+
+qu = pd.read_excel( r"C:\Users\csucuogl\Dropbox\USFS_Ph2\Quotes.xlsx" )
+qu = qu.set_index('number')
+
+dfg = dfg.join( qu )
+dfg
+
+#%% Corect Projection
 
 dfg = dfg.to_crs(epsg=4326)
 dfg
